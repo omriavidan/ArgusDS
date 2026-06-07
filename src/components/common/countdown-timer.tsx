@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import { Badge } from "@/components/ui/badge";
 
 export interface CountdownTimerProps {
   passTime: string;
@@ -15,12 +16,14 @@ export function CountdownTimer({
   const [timeLeft, setTimeLeft] = useState<number>(0);
 
   useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+
     const update = () => {
       const diff = new Date(passTime).getTime() - Date.now();
       const remaining = Math.max(0, Math.ceil(diff / 1000));
       setTimeLeft(remaining);
       if (remaining <= 0) {
-        clearInterval(interval);
+        if (interval) clearInterval(interval);
       }
     };
 
@@ -28,9 +31,11 @@ export function CountdownTimer({
     update();
     
     // Set interval for subsequent updates
-    const interval = setInterval(update, 1000);
+    interval = setInterval(update, 1000);
     
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [passTime]);
 
   const isDone = timeLeft <= 0;
@@ -57,20 +62,21 @@ export function CountdownTimer({
 
   if (isDone) {
     return (
-      <motion.div
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-        className="relative overflow-hidden w-20 h-7 flex items-center justify-center rounded-md bg-emerald-500/10 text-xs text-emerald-400 font-medium tracking-wide"
-      >
+      <Badge variant="success-subtle" className="w-20 h-7 p-0 flex items-center justify-center rounded-md font-medium tracking-wide overflow-hidden" asChild>
         <motion.div
-          initial={{ x: "-100%" }}
-          animate={{ x: "200%" }}
-          transition={{ duration: 0.7, ease: "linear", delay: 0.1 }}
-          className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-emerald-200/20 to-transparent skew-x-[-20deg]"
-        />
-        <span className="z-10">DONE</span>
-      </motion.div>
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        >
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: "200%" }}
+            transition={{ duration: 0.7, ease: "linear", delay: 0.1 }}
+            className="absolute inset-0 w-full bg-gradient-to-r from-transparent via-success/20 to-transparent skew-x-[-20deg]"
+          />
+          <span className="z-10">DONE</span>
+        </motion.div>
+      </Badge>
     );
   }
 
