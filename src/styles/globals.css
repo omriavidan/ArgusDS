@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARGUS DESIGN SYSTEM — Global Base Styles
+   
+   Reset, typography defaults, and base element styling.
+   Token values come from theme.css via CSS custom properties.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /**
+   * Default typography styles for HTML elements (h1-h4, p, label, button, input).
+   * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg)
+   * automatically override them.
+   */
+
+  html {
+    font-size: var(--font-size);
+  }
+
+  h1 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h2 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  h4 {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  label {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  button {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.5;
+  }
+
+  input {
+    font-size: var(--text-base);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.5;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(150%) skewX(-20deg);
+  }
+}
+
+@keyframes pullRipple {
+  0%   { transform: scale(1);    opacity: 1; }
+  55%  { transform: scale(1.09); opacity: 0.6; }
+  100% { transform: scale(1.01); opacity: 0; }
+}
+
+@keyframes chaseLight {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { opacity: 1; }
+  95%  { opacity: 0; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+@keyframes neonFlicker {
+  0%, 100% { box-shadow: 0 0 14px 3px rgba(96,165,250,0.4); }
+  40%      { box-shadow: 0 0 8px 2px rgba(96,165,250,0.18); }
+  70%      { box-shadow: 0 0 16px 4px rgba(96,165,250,0.48); }
+}
