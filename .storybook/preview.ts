@@ -22,10 +22,22 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const isDark = context.globals?.backgrounds?.value !== "#ffffff";
+      
+      // Portaled components (like Radix Dialogs/Popovers) render outside the root div.
+      // We must apply the dark class to the html element so they inherit the theme.
+      React.useEffect(() => {
+        const root = document.documentElement;
+        if (isDark) {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+      }, [isDark]);
+
       return React.createElement(
         "div",
         {
-          className: isDark ? "dark text-foreground bg-background" : "text-foreground bg-background",
+          className: "text-foreground bg-background",
           style: {
             fontFamily: "'JetBrains Mono', monospace",
             padding: "2rem",
